@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - Home4Paws</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/admin-style.css}">
+    <style>
+        /* สไตล์พิเศษเฉพาะการ์ด Dashboard */
+        .stat-card {
+            border: none;
+            border-radius: 20px;
+            padding: 25px;
+            color: white;
+            transition: transform 0.3s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .stat-card:hover { transform: translateY(-5px); }
+        .bg-gradient-1 { background: linear-gradient(45deg, #606C38, #869950); } /* เขียว */
+        .bg-gradient-2 { background: linear-gradient(45deg, #BC6C25, #DDA15E); } /* ส้ม */
+        .bg-gradient-3 { background: linear-gradient(45deg, #283618, #475D2B); } /* เขียวเข้ม */
+        .bg-gradient-4 { background: linear-gradient(45deg, #BC4749, #D66E70); } /* แดง */
+        .stat-icon { font-size: 3rem; opacity: 0.3; position: absolute; right: 20px; bottom: 20px; }
+        .stat-number { font-size: 2.5rem; font-weight: 700; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-dark navbar-custom sticky-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold d-flex align-items-center" href="#">
+            <img th:src="@{/images/logo.png}" alt="Logo"
+                 style="height: 40px; width: auto; margin-right: 10px;">
+            Home4Paws Admin
+        </a>
+        <div class="d-flex align-items-center">
+            <a href="/admin/dashboard" class="btn btn-light btn-sm fw-bold text-success me-2">
+                <i class="fas fa-chart-pie me-1"></i> ภาพรวม
+            </a>
+            <a href="/admin/posts" class="btn btn-outline-light btn-sm me-2">
+                <i class="fas fa-list me-1"></i> จัดการโพสต์
+            </a>
+            <a href="/admin/reviews" class="btn btn-outline-light btn-sm me-2">
+                <i class="fas fa-star me-1"></i> จัดการรีวิว
+            </a>
+            <a href="/admin/logout" class="btn btn-logout btn-sm ms-2">ออก</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <h2 class="page-title"><i class="fas fa-tachometer-alt me-2"></i>ภาพรวมระบบ (Dashboard)</h2>
+
+    <div class="row g-4 animate__animated animate__fadeIn">
+        <div class="col-md-6 col-lg-3">
+            <div class="stat-card bg-gradient-3 position-relative">
+                <h5 class="mb-0">ผู้ใช้งานทั้งหมด</h5>
+                <div class="stat-number" th:text="${totalMembers}">0</div>
+                <small>Users in system</small>
+                <i class="fas fa-users stat-icon"></i>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="stat-card bg-gradient-1 position-relative">
+                <h5 class="mb-0">โพสต์ประกาศทั้งหมด</h5>
+                <div class="stat-number" th:text="${totalPosts}">0</div>
+                <small>Total Posts</small>
+                <i class="fas fa-bullhorn stat-icon"></i>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="stat-card bg-gradient-2 position-relative">
+                <h5 class="mb-0">น้องที่รอหาบ้าน</h5>
+                <div class="stat-number" th:text="${availablePosts}">0</div>
+                <small>Available Status</small>
+                <i class="fas fa-paw stat-icon"></i>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="stat-card bg-gradient-4 position-relative">
+                <h5 class="mb-0">ผู้ใช้ที่ถูกแบน</h5>
+                <div class="stat-number" th:text="${bannedMembers}">0</div>
+                <small>Banned Accounts</small>
+                <i class="fas fa-user-slash stat-icon"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-5 text-center">
+        <img src="https://img.freepik.com/free-vector/cute-dog-operating-laptop-cartoon-illustration_138676-2432.jpg"
+             style="width: 300px; opacity: 0.8; mix-blend-mode: multiply;">
+        <p class="text-muted mt-3">ระบบหลังบ้านพร้อมทำงานแล้วค่ะ!</p>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Inappropriate Posts - Home4Paws 🐾</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/css/admin-style.css}">
+
+    <style>
+        .text-truncate-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 250px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        .modal-header-danger {
+            background-color: var(--error-red);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-dark navbar-custom sticky-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold d-flex align-items-center" href="#">
+            <img th:src="@{/images/logo.png}" alt="Logo"
+                 style="height: 40px; width: auto; margin-right: 10px;">
+            Home4Paws Admin
+        </a>
+        <div class="d-flex align-items-center">
+            <a href="/admin/dashboard" class="btn btn-outline-light btn-sm me-2">
+                <i class="fas fa-chart-pie me-1"></i> ภาพรวม
+            </a>
+            <a href="/admin/posts" class="btn btn-light btn-sm fw-bold text-success me-2">
+                <i class="fas fa-exclamation-triangle me-1"></i> โพสต์ไม่เหมาะสม
+            </a>
+            <a href="/admin/reviews" class="btn btn-outline-light btn-sm me-2">
+                <i class="fas fa-star me-1"></i> จัดการรีวิว
+            </a>
+            <a href="/admin/logout" class="btn btn-logout btn-sm ms-2">ออก</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container mb-5">
+    <div class="table-card animate__animated animate__fadeIn">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="page-title mb-0" style="border-left-color: var(--error-red);">
+                <i class="fas fa-user-shield me-2 text-danger"></i>รายการโพสต์ที่ไม่เหมาะสม
+            </h2>
+            <span class="badge rounded-pill bg-danger text-white border p-2 px-3 shadow-sm">
+                    ต้องตรวจสอบ: <span th:text="${animals.size()}">0</span> รายการ
+                </span>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover align-middle" th:if="${!animals.isEmpty()}">
+                <thead>
+                <tr>
+                    <th width="10%">รูปภาพ</th>
+                    <th width="15%">ชื่อน้อง</th>
+                    <th width="15%">เจ้าของโพสต์</th>
+                    <th width="10%">สถานะ</th>
+                    <th width="15%" class="text-center">จัดการ</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="animal : ${animals}">
+
+                    <td>
+                        <div style="width: 60px; height: 60px; border-radius: 10px; overflow: hidden; background: #eee; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                            <img th:if="${animal.animalImage != null && !animal.animalImage.isEmpty()}"
+                                 th:src="'data:image/jpeg;base64,' + ${animal.animalImage}"
+                                 style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="fw-bold text-dark" th:text="${animal.animalName}"></div>
+                        <div class="small text-muted" th:text="${animal.breed}"></div>
+                        <small class="text-danger fw-bold" th:if="${animal.appropriate == false}">Wait for Action</small>
+                    </td>
+
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-user text-secondary me-2"></i>
+                            <span th:text="${animal.member.username}">Username</span>
+                        </div>
+                    </td>
+
+                    <td>
+                        <span th:text="${animal.animalStatus}" class="badge bg-secondary">Status</span>
+                    </td>
+
+                    <td class="text-center">
+                        <button type="button" class="btn btn-primary btn-sm rounded-pill px-3 mb-1"
+                                data-bs-toggle="modal"
+                                th:data-bs-target="'#modal-' + ${animal.animalId}">
+                            <i class="fas fa-search me-1"></i> ตรวจสอบ
+                        </button>
+
+                        <a th:href="@{'/admin/delete-post/' + ${animal.animalId}}"
+                           class="btn btn-outline-danger btn-sm rounded-circle"
+                           onclick="return confirm('ยืนยันการลบโพสต์นี้หรือไม่?');"
+                           title="ลบโพสต์ทิ้ง">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+
+                        <div class="modal fade" th:id="'modal-' + ${animal.animalId}" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered text-start">
+                                <div class="modal-content border-0 shadow">
+                                    <div class="modal-header modal-header-danger">
+                                        <h5 class="modal-title">
+                                            <i class="fas fa-exclamation-triangle me-2"></i>ตรวจสอบความเหมาะสม
+                                        </h5>
+                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body p-4">
+                                        <div class="text-center mb-3">
+                                            <img th:if="${animal.animalImage != null}"
+                                                 th:src="'data:image/jpeg;base64,' + ${animal.animalImage}"
+                                                 class="img-fluid rounded shadow-sm" style="max-height: 300px;">
+                                        </div>
+                                        <h4 class="fw-bold text-dark" th:text="${animal.animalName}"></h4>
+                                        <p class="mb-1"><span class="fw-bold">พันธุ์:</span> <span th:text="${animal.breed}"></span></p>
+                                        <p class="mb-3"><span class="fw-bold">เจ้าของ:</span> <span th:text="${animal.member.username}"></span></p>
+
+                                        <div class="alert alert-light border">
+                                            <h6 class="fw-bold text-secondary"><i class="fas fa-info-circle me-1"></i> นิสัย/รายละเอียด:</h6>
+                                            <p class="mb-0" th:text="${animal.personality}"></p>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer bg-light">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+                                        <a th:href="@{'/admin/delete-post/' + ${animal.animalId}}"
+                                           class="btn btn-danger"
+                                           onclick="return confirm('ยืนยันลบโพสต์นี้?');">
+                                            <i class="fas fa-trash-alt me-1"></i> ลบโพสต์ทันที
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div th:if="${animals.isEmpty()}" class="empty-state text-center py-5">
+                <div class="mb-3">
+                    <i class="fas fa-check-circle fa-4x text-success opacity-50"></i>
+                </div>
+                <h4 class="text-success">เยี่ยมมาก!</h4>
+                <p class="text-muted">ไม่พบโพสต์ที่ไม่เหมาะสมในขณะนี้</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

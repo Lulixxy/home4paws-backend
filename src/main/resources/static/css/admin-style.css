@@ -1,0 +1,174 @@
+/* --- 1. Theme Variables (เปลี่ยนสีที่นี่ เปลี่ยนทั้งแอป) --- */
+:root {
+    --bg-cream: #FEFAE0;
+    --primary-green: #606C38;
+    --accent-copper: #BC6C25;
+    --text-dark-green: #283618;
+    --error-red: #BC4749;
+    --white: #ffffff;
+}
+
+/* --- 2. Global Styles --- */
+body {
+    background-color: var(--bg-cream);
+    font-family: 'Prompt', sans-serif;
+    color: var(--text-dark-green);
+    min-height: 100vh;
+}
+
+/* --- 3. Navbar Styles --- */
+.navbar-custom {
+    background-color: var(--primary-green);
+    box-shadow: 0 4px 12px rgba(40, 54, 24, 0.15);
+    padding: 15px 0;
+}
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--bg-cream) !important;
+    letter-spacing: 1px;
+}
+.btn-logout {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    padding: 8px 20px;
+    transition: all 0.3s;
+    text-decoration: none;
+}
+.btn-logout:hover {
+    background-color: var(--error-red);
+    border-color: var(--error-red);
+    color: white;
+}
+
+/* --- 4. Login Page Styles --- */
+.login-body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.login-card {
+    width: 100%;
+    max-width: 420px;
+    padding: 40px;
+    border-radius: 25px;
+    background: var(--white);
+    box-shadow: 0 10px 30px rgba(96, 108, 56, 0.15);
+    border: 1px solid rgba(96, 108, 56, 0.1);
+}
+.brand-title {
+    color: var(--primary-green);
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+.form-control {
+    border-radius: 12px;
+    padding: 12px 15px;
+    border: 1px solid #e0e0e0;
+    background-color: #f8f9fa;
+}
+.form-control:focus {
+    background-color: var(--white);
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 4px rgba(96, 108, 56, 0.15);
+}
+.input-group-text {
+    border-radius: 12px;
+    background-color: var(--bg-cream);
+    border: 1px solid #e0e0e0;
+    color: var(--primary-green);
+}
+.btn-theme {
+    background-color: var(--primary-green);
+    border: none;
+    color: white;
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+.btn-theme:hover {
+    background-color: var(--text-dark-green);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(40, 54, 24, 0.2);
+    color: white;
+}
+.alert-custom-danger {
+    background-color: rgba(188, 71, 73, 0.1);
+    color: var(--error-red);
+    border: 1px solid var(--error-red);
+    border-radius: 12px;
+}
+
+/* --- 5. Dashboard & Table Styles --- */
+.table-card {
+    background-color: var(--white);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(96, 108, 56, 0.08);
+    border: none;
+    padding: 30px;
+    margin-top: 30px;
+}
+.page-title {
+    color: var(--primary-green);
+    font-weight: 700;
+    margin-bottom: 25px;
+    border-left: 5px solid var(--accent-copper);
+    padding-left: 15px;
+}
+.table thead th {
+    background-color: #f8f9fa;
+    color: var(--primary-green);
+    font-weight: 600;
+    border-bottom: 2px solid #e9ecef;
+    border-top: none;
+}
+.table-hover tbody tr:hover {
+    background-color: rgba(254, 250, 224, 0.5);
+}
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+.bg-available {
+    background-color: rgba(96, 108, 56, 0.15);
+    color: var(--primary-green);
+    border: 1px solid rgba(96, 108, 56, 0.3);
+}
+.bg-adopted {
+    background-color: rgba(188, 108, 37, 0.15);
+    color: var(--accent-copper);
+    border: 1px solid rgba(188, 108, 37, 0.3);
+}
+.btn-action-delete {
+    background-color: rgba(188, 71, 73, 0.1);
+    color: var(--error-red);
+    border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    text-decoration: none;
+}
+.btn-action-delete:hover {
+    background-color: var(--error-red);
+    color: white;
+    transform: scale(1.1);
+}
+.empty-state {
+    text-align: center;
+    padding: 50px;
+    color: #aaa;
+}
+.star-rating { color: #ffc107; }
+.btn-ban { background-color: var(--error-red); color: white; border: none; border-radius: 50px; padding: 5px 15px; font-size: 0.8rem; text-decoration: none; }
+.btn-ban:hover { background-color: #a03032; color: white; }
+.badge-banned { background-color: #333; color: white; padding: 6px 12px; border-radius: 20px; font-size: 0.85rem;}
