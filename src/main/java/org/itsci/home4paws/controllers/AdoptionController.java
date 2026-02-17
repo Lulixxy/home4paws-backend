@@ -50,13 +50,25 @@ public class AdoptionController {
     }
 
     // เพิ่มใหม่!! ดึงประวัติทั้งหมด (Pending, Approved, Rejected)
+    // แบบที่ 1: สำหรับ Flutter หน้า Home (ส่งมาแบบ /my-history/Lulix01)
     @GetMapping("/my-history/{username}")
-    public ResponseEntity<?> getMyAdoptionHistory(@PathVariable("username") String username) {
+    public ResponseEntity<?> getMyHistoryPath(@PathVariable("username") String username) {
+        return getMyAdoptionHistory(username); // เรียกใช้ Logic เดียวกัน
+    }
+
+    // แบบที่ 2: สำหรับกรณีเผื่ออยากส่งแบบ ?username=Lulix01
+    @GetMapping("/my-history")
+    public ResponseEntity<?> getMyHistoryQuery(@RequestParam("username") String username) {
+        return getMyAdoptionHistory(username);
+    }
+
+    // Logic กลาง
+    private ResponseEntity<?> getMyAdoptionHistory(String username) {
         try {
             List<AdoptionResponse> history = as.getMyAdoptionHistory(username);
             return ResponseEntity.ok(history);
         } catch (Exception e) {
-            return new ResponseEntity<>("Error fetching history: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
